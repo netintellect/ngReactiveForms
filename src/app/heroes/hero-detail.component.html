@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="offset-1 col-10 card mt-1">
+    <h2>Hero Detail</h2>
+    <h3><i>Just a FormControl</i></h3>
+    <form [formGroup]="detailInfo" novalidate>
+      <!-- name -->
+      <div class="form-group">
+        <label class="center-block">Name:
+          <input class="form-control" formControlName="name">
+        </label>
+      </div>
+      <!-- addresses -->
+      <div class="well well-lg"
+           formArrayName="secretLairs">
+        <div *ngFor="let address of secretLairs.controls; let i=index" [formGroupName] = "i">
+          <h4>Secret lair #{{i + 1}}</h4>
+          <!-- street -->
+          <div class="form-group">
+            <label class="center-block">Street:
+              <input class="form-control" formControlName="street">
+            </label>
+          </div>
+          <!-- city -->
+          <div class="form-group">
+            <label class="center-block">City:
+              <input class="form-control" formControlName="city">
+            </label>
+          </div>
+          <!-- state -->
+          <div class="form-group">
+            <label class="center-block">State:
+              <select class="form-control" formControlName="state">
+                <option *ngFor="let state of states" [value]="state">{{state}}</option>
+              </select>
+            </label>
+          </div>
+          <!-- zip -->
+          <div class="form-group">
+            <label class="center-block">Zip Code:
+              <input class="form-control" formControlName="zip">
+            </label>
+          </div>
+        </div>
+        <button type="button"
+                class="btn btn-sm"
+                (click)="addSecretLair()" >Add a Secret Lair</button>
+        <button type="button"
+                class="btn btn-sm"
+                (click)="removeSecretLair()"
+                [disabled]="secretLairs.length == 0">Remove a Secret Lair</button>
+      </div>
+      <!-- powers -->
+      <div class="form-group radio">
+        <h4>Super power:</h4>
+        <label class="center-block">
+          <input type="radio" formControlName="power" value="flight">
+          Flight
+        </label>
+        <label class="center-block">
+          <input type="radio" formControlName="power" value="x-ray vision">X-ray
+          vision
+        </label>
+        <label class="center-block">
+          <input type="radio" formControlName="power" value="strength">
+          Strength
+        </label>
+      </div>
+      <!-- sidekick -->
+      <div class="checkbox">
+        <label class="center-block">
+          <input type="checkbox" formControlName="sidekick">I have a sidekick.
+        </label>
+      </div>
+    </form>
+    <div class="alert alert-info">
+      <p>
+        {{detailInfo.value | json }}
+      </p>
+    </div>
+  </div>
+</div>

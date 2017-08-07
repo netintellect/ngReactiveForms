@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'my-app',
-  template: `<h1>Hello {{name}}</h1>`,
+  selector: "my-app",
+  template: `
+    <div class="container">
+      <h1>Reactive forms</h1>
+      <hero-list-component>Loading hero component</hero-list-component>    
+    </div>
+  `
 })
-export class AppComponent  { name = 'Angular'; }
+export class AppComponent  { name = "Angular"; }
