@@ -79,6 +79,8 @@
     <div class="alert alert-info">
       <p>{{detailInfo.value | json }}</p>
       <p>{{detailInfo.status | json }}</p>
+      <p>{{detailInfo.get("name").errors | json }}</p>
+
     </div>
     <p class="text-right">
       <button (click)="saveHero()"

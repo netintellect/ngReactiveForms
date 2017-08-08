@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Address, Hero, states} from "./models";
+import {forbiddenNameValidator} from "../shared/forbiddenValue.directive";
 
 @Component({
   moduleId: module.id,
@@ -20,7 +21,7 @@ export class HeroDetailComponent implements OnInit, OnChanges {
     this.logNameChanges();
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes?: SimpleChanges): void {
     this.detailInfo.reset({
       name: this.hero.name,
     });
@@ -50,7 +51,7 @@ export class HeroDetailComponent implements OnInit, OnChanges {
 
   private createBindingsForDetailInfo() {
     this.detailInfo = this.formBuilder.group({
-      name: [ "", Validators.required || Validators.maxLength(3) ],
+      name: [ "", [ Validators.required, Validators.maxLength(3), forbiddenNameValidator(/bob/i) ]],
       secretLairs: this.formBuilder.array([]),
       power: [ "" ],
       sidekick: [ "" ]
