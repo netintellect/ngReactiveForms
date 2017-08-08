@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Address, Hero, states} from "./models";
 
@@ -8,7 +8,7 @@ import {Address, Hero, states} from "./models";
   templateUrl: "hero-detail.component.html"
 })
 
-export class HeroDetailComponent implements OnInit {
+export class HeroDetailComponent implements OnInit, OnChanges {
   //#region state
   @Input() public hero: Hero;
   public detailInfo: FormGroup;
@@ -20,13 +20,11 @@ export class HeroDetailComponent implements OnInit {
     this.logNameChanges();
   }
 
-  private createBindingsForDetailInfo() {
-    this.detailInfo = this.formBuilder.group({
-      name: [ "", Validators.required || Validators.maxLength(3) ],
-      secretLairs: this.formBuilder.array([]),
-      power: [ "" ],
-      sidekick: [ "" ]
+  public ngOnChanges(changes: SimpleChanges): void {
+    this.detailInfo.reset({
+      name: this.hero.name,
     });
+    this.setAddresses(this.hero.addresses);
   }
 
   public addSecretLair(): void {
@@ -38,18 +36,31 @@ export class HeroDetailComponent implements OnInit {
     this.secretLairs.removeAt(this.secretLairs.length - 1);
   }
 
-  private setAddresses(addresses: Address[]): void {
-    const formGroups: FormGroup[] = addresses.map(address => this.formBuilder.group(address));
-    const formArray: FormArray = this.formBuilder.array(formGroups);
-    this.detailInfo.setControl("secretLairs", formArray);
-  }
-
-
   public get secretLairs(): FormArray {
     return this.detailInfo.get("secretLairs") as FormArray;
   };
 
+  public revert(): void {
+    this.ngOnChanges();
+  }
+
   ngOnInit() {
+  }
+
+
+  private createBindingsForDetailInfo() {
+    this.detailInfo = this.formBuilder.group({
+      name: [ "", Validators.required || Validators.maxLength(3) ],
+      secretLairs: this.formBuilder.array([]),
+      power: [ "" ],
+      sidekick: [ "" ]
+    });
+  }
+
+  private setAddresses(addresses: Address[]): void {
+    const formGroups: FormGroup[] = addresses.map(address => this.formBuilder.group(address));
+    const formArray: FormArray = this.formBuilder.array(formGroups);
+    this.detailInfo.setControl("secretLairs", formArray);
   }
   //#endregion
   private logNameChanges() {
