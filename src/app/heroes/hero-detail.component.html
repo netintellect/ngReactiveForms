@@ -73,9 +73,12 @@
       </div>
     </form>
     <div class="alert alert-info">
-      <p>
-        {{detailInfo.value | json }}
-      </p>
+      <p>{{detailInfo.value | json }}</p>
+      <p>{{detailInfo.status | json }}</p>
     </div>
+    <p class="text-right">
+      <button (click)="saveHero()" class="btn btn-primary">Reset</button>
+      <button (click)="detailInfo.reset()" class="btn btn-primary">Reset</button>
+    </p>
   </div>
 </div>

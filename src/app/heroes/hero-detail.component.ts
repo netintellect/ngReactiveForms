@@ -57,8 +57,8 @@ export class HeroDetailComponent implements OnInit {
     if (nameControl == null) {
       return;
     }
-    nameControl.valueChanges.forEach(
-      (value: string) => console.log("name changed" + value)
+    nameControl.valueChanges.subscribe(
+      (value: string) => console.log("name changed " + value)
     );
   }
 }
